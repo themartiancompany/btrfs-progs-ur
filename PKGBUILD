@@ -13,7 +13,6 @@ conflicts=('btrfs-progs-unstable')
 provides=('btrfs-progs-unstable')
 license=('GPL2')
 source=(ftp://ftp.archlinux.org/other/$pkgname/$pkgname-$pkgver.tar.xz
-        70-btrfs.rules
         initcpio-install-btrfs
         initcpio-hook-btrfs)
 
@@ -31,9 +30,6 @@ package() {
    mkdir -p ${pkgdir}/sbin
    ln -sf /usr/bin/btrfs ${pkgdir}/sbin/btrfs
 
-   # add udev rule
-   install -Dm644 "$srcdir/70-btrfs.rules" "$pkgdir/usr/lib/udev/rules.d/70-btrfs.rules"
-
    # install mkinitcpio hooks
    install -Dm644 "$srcdir/initcpio-install-btrfs" \
      "$pkgdir/usr/lib/initcpio/install/btrfs"
@@ -41,6 +37,5 @@ package() {
      "$pkgdir/usr/lib/initcpio/hooks/btrfs"
 }
 md5sums=('d9c96e670fac7c2098a9e7ef98d4b2e2'
-         '345c62c8b267082361729ca5b647518f'
          'e5186ec3fe8a809b7473470128d1c4ab'
          '9fb35142755b477a96cb7292f3d64839')
