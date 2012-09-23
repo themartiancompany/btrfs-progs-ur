@@ -3,7 +3,7 @@
 
 pkgname=btrfs-progs
 pkgver=0.19.20120904
-pkgrel=4
+pkgrel=5
 pkgdesc="btrfs filesystem utilities"
 arch=(i686 x86_64)
 depends=('glibc' 'e2fsprogs')
