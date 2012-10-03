@@ -3,7 +3,7 @@
 
 pkgname=btrfs-progs
 pkgver=0.19.20120904
-pkgrel=5
+pkgrel=6
 pkgdesc="btrfs filesystem utilities"
 arch=(i686 x86_64)
 depends=('glibc' 'e2fsprogs')
@@ -13,6 +13,7 @@ conflicts=('btrfs-progs-unstable')
 provides=('btrfs-progs-unstable')
 license=('GPL2')
 source=(ftp://ftp.archlinux.org/other/$pkgname/$pkgname-$pkgver.tar.xz)
+install=btrfs.install
 
 build() {
    cd $srcdir/$pkgname-$pkgver
