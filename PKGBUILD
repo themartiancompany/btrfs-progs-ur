@@ -3,8 +3,8 @@
 # Contributor: Tobias Powalowski <tpowa@archlinux.org>
 
 pkgname=btrfs-progs
-pkgver=6.5
-pkgrel=2
+pkgver=6.5.1
+pkgrel=1
 pkgdesc='Btrfs filesystem utilities'
 arch=('x86_64')
 makedepends=('git' 'asciidoc' 'xmlto' 'systemd' 'python' 'python-setuptools' 'e2fsprogs' 'reiserfsprogs' 'python-sphinx')
@@ -19,8 +19,6 @@ provides=('btrfs-progs-unstable')
 license=('GPL2')
 validpgpkeys=('F2B41200C54EFB30380C1756C565D5F9D76D583B')
 source=("https://www.kernel.org/pub/linux/kernel/people/kdave/btrfs-progs/btrfs-progs-v$pkgver.tar."{sign,xz}
-        https://github.com/kdave/btrfs-progs/commit/839b2d587da9d691c2f2e7cdb5301eed23781d1d.patch
-        https://github.com/kdave/btrfs-progs/commit/03f41ac508d2c47fdfef08f0fd27ab154f7dcfd8.patch
         'initcpio-install-btrfs'
         'initcpio-hook-btrfs'
         'btrfs-scrub@.service'
@@ -29,7 +27,7 @@ source=("https://www.kernel.org/pub/linux/kernel/people/kdave/btrfs-progs/btrfs-
 install=btrfs-progs.install
 options=(!staticlibs)
 sha256sums=('SKIP'
-            '8f507a0cdf6a8b372d862dbe4943fe84c66dcb2088e3cfde2cfb3b176eac1c1c'
+            'dacbb28136e82586af802205263a428c3d1941778bc3fdc9b1b386ea12eb904e'
             'bbe60b35d1b1e2efc1308a8f54f1fdc6808240a81c5f5b4d75321b7ee86e41f4'
             '35efeee8590d6d60c711ae9cdc918e4841ab61d10cb02359e65e36ebff95ffc5'
             'eaa7af92d28bfa8940bb551560fd7be777f9f175292eaa72b5f6ef00fb240252'
@@ -77,11 +75,3 @@ package() {
 }
 
 # vim:set ts=2 sw=2 ft=sh et:
-sha256sums=('SKIP'
-            '8f507a0cdf6a8b372d862dbe4943fe84c66dcb2088e3cfde2cfb3b176eac1c1c'
-            '846db4fb24c23b570aab42924830222a6670f92505d1b7570e5c175301b59d00'
-            '426a81d82e7f5af6fd8e4f672fbbda850643a8fb6781f05ee6b2fcccb007efc9'
-            'bbe60b35d1b1e2efc1308a8f54f1fdc6808240a81c5f5b4d75321b7ee86e41f4'
-            '35efeee8590d6d60c711ae9cdc918e4841ab61d10cb02359e65e36ebff95ffc5'
-            'eaa7af92d28bfa8940bb551560fd7be777f9f175292eaa72b5f6ef00fb240252'
-            '9a0b6cc23f7bd97b83b6c38dd2b4e4373fead8bd3ccfb82a47c72971e9d6f8ad')
