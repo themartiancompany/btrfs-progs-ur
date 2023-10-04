@@ -12,7 +12,7 @@ depends=('glibc' 'util-linux-libs' 'lzo' 'zlib' 'zstd' 'libgcrypt' 'systemd-libs
 optdepends=('python: libbtrfsutil python bindings'
             'e2fsprogs: btrfs-convert'
             'reiserfsprogs: btrfs-convert')
-url='https://btrfs.wiki.kernel.org'
+url='https://btrfs.readthedocs.io'
 replaces=('btrfs-progs-unstable')
 conflicts=('btrfs-progs-unstable')
 provides=('btrfs-progs-unstable')
