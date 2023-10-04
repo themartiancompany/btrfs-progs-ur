@@ -3,7 +3,7 @@
 # Contributor: Tobias Powalowski <tpowa@archlinux.org>
 
 pkgname=btrfs-progs
-pkgver=6.5.1
+pkgver=6.5.2
 pkgrel=1
 pkgdesc='Btrfs filesystem utilities'
 arch=('x86_64')
@@ -16,7 +16,7 @@ url='https://btrfs.wiki.kernel.org'
 replaces=('btrfs-progs-unstable')
 conflicts=('btrfs-progs-unstable')
 provides=('btrfs-progs-unstable')
-license=('GPL2')
+license=('GPL2-only')
 validpgpkeys=('F2B41200C54EFB30380C1756C565D5F9D76D583B')
 source=("https://www.kernel.org/pub/linux/kernel/people/kdave/btrfs-progs/btrfs-progs-v$pkgver.tar."{sign,xz}
         'initcpio-install-btrfs'
@@ -27,7 +27,7 @@ source=("https://www.kernel.org/pub/linux/kernel/people/kdave/btrfs-progs/btrfs-
 install=btrfs-progs.install
 options=(!staticlibs)
 sha256sums=('SKIP'
-            'dacbb28136e82586af802205263a428c3d1941778bc3fdc9b1b386ea12eb904e'
+            'c558b2ddd43f5747a2f5cb62aed3e5c5099703886485a480310fed4698d3610c'
             'bbe60b35d1b1e2efc1308a8f54f1fdc6808240a81c5f5b4d75321b7ee86e41f4'
             '35efeee8590d6d60c711ae9cdc918e4841ab61d10cb02359e65e36ebff95ffc5'
             'eaa7af92d28bfa8940bb551560fd7be777f9f175292eaa72b5f6ef00fb240252'
