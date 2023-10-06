@@ -4,7 +4,7 @@
 
 pkgname=btrfs-progs
 pkgver=6.5.2
-pkgrel=1
+pkgrel=2
 pkgdesc='Btrfs filesystem utilities'
 arch=('x86_64')
 makedepends=('git' 'asciidoc' 'xmlto' 'systemd' 'python' 'python-setuptools' 'e2fsprogs' 'reiserfsprogs' 'python-sphinx')
@@ -16,7 +16,7 @@ url='https://btrfs.readthedocs.io'
 replaces=('btrfs-progs-unstable')
 conflicts=('btrfs-progs-unstable')
 provides=('btrfs-progs-unstable')
-license=('GPL2-only')
+license=('GPL-2.0-only')
 validpgpkeys=('F2B41200C54EFB30380C1756C565D5F9D76D583B')
 source=("https://www.kernel.org/pub/linux/kernel/people/kdave/btrfs-progs/btrfs-progs-v$pkgver.tar."{sign,xz}
         'initcpio-install-btrfs'

@@ -1,11 +1,11 @@
 pkgbase = btrfs-progs
 	pkgdesc = Btrfs filesystem utilities
 	pkgver = 6.5.2
-	pkgrel = 1
-	url = https://btrfs.wiki.kernel.org
+	pkgrel = 2
+	url = https://btrfs.readthedocs.io
 	install = btrfs-progs.install
 	arch = x86_64
-	license = GPL2-only
+	license = GPL-2.0-only
 	makedepends = git
 	makedepends = asciidoc
 	makedepends = xmlto
