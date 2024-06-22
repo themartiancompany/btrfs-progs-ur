@@ -68,7 +68,7 @@ depends=(
     'systemd-libs'
   )
 optdepends=(
-  "${Spy}: libbtrfsutil python bindings"
+  "${_py}: libbtrfsutil python bindings"
   'e2fsprogs: btrfs-convert'
   'reiserfsprogs: btrfs-convert'
 )
