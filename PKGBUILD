@@ -6,6 +6,14 @@
 # Contributor: Tom Gundersen <teg@jklm.no>
 # Contributor: Tobias Powalowski <tpowa@archlinux.org>
 
+_docs=true
+_udev=true
+_os="$( \
+  uname \
+    -o)"
+[[ "${_os}" == "Android" ]] && \
+  _docs=false \
+  _udev=false
 pkgname=btrfs-progs
 pkgver=6.9
 pkgrel=1
@@ -20,7 +28,7 @@ arch=(
   'armv7l'
 )
 makedepends=(
-  'git'
+  # 'git'
   'asciidoc'
   'xmlto'
   'systemd'
@@ -101,10 +109,26 @@ prepare() {
 }
 
 build() {
-  cd "${pkgname}-v${pkgver}"
-  ./configure \
-    --prefix=/usr \
+  local \
+    _configure_opts=()
+  _configure_opts=(
+    --prefix=/usr
     --with-crypto=libgcrypt
+  )
+  if [[ "${_docs}" == 'false' ]]; then
+    _configure_opts+=(
+      --disable-documentation
+    )
+  if [[ "${_udev}" == 'false' ]]; then
+    _configure_opts+=(
+      --disable-libudev
+    )
+
+  fi
+  cd \
+    "${pkgname}-v${pkgver}"
+  ./configure \
+    "${_configure_opts[@]}"
   make
 }
 
