@@ -6,15 +6,20 @@
 # Contributor: Tom Gundersen <teg@jklm.no>
 # Contributor: Tobias Powalowski <tpowa@archlinux.org>
 
+_py='python'
 _docs=true
 _udev=true
+_convert=true
+_python=true
 _os="$( \
   uname \
     -o)"
 [[ "${_os}" == "Android" ]] && \
   _docs=false \
-  _udev=false
-pkgname=btrfs-progs
+  _udev=false \
+  _convert=false
+_pkg="btrfs"
+pkgname="${_pkg}-progs"
 pkgver=6.9
 pkgrel=1
 pkgdesc='Btrfs filesystem utilities'
@@ -28,17 +33,28 @@ arch=(
   'armv7l'
 )
 makedepends=(
-  # 'git'
-  'asciidoc'
   'xmlto'
-  'systemd'
-  'python'
-  'python-setuptools'
-  'e2fsprogs' 
-  'reiserfsprogs'
-  'python-sphinx'
-  'python-sphinx_rtd_theme'
 )
+[[ "${_python}" == 'true' ]] && \
+  makedepends+=(
+    "${_py}"
+    "${_py}-setuptools"
+  )
+[[ "${_docs}" == 'true' ]] && \
+  makedepends+=(
+    'asciidoc'
+    "${_py}-sphinx"
+    "${_py}-sphinx_rtd_theme"
+  )
+[[ "${_udev}" == 'true' ]] && \
+  makedepends+=(
+    'systemd'
+  )
+[[ "${_convert}" == 'true' ]] && \
+  makedepends+=(
+    'e2fsprogs' 
+    'reiserfsprogs'
+  )
 depends=(
   'glibc'
   'util-linux-libs'
@@ -46,22 +62,25 @@ depends=(
   'zlib'
   'zstd'
   'libgcrypt'
-  'systemd-libs'
 )
+[[ "${_udev}" == 'true' ]] && \
+  depends+=(
+    'systemd-libs'
+  )
 optdepends=(
-  'python: libbtrfsutil python bindings'
+  "${Spy}: libbtrfsutil python bindings"
   'e2fsprogs: btrfs-convert'
   'reiserfsprogs: btrfs-convert'
 )
-url='https://btrfs.readthedocs.io'
+url="https://${_pkg}.readthedocs.io"
 replaces=(
-  'btrfs-progs-unstable'
+  "${pkgname}-unstable"
 )
 conflicts=(
-  'btrfs-progs-unstable'
+  "${pkgname}-unstable"
 )
 provides=(
-  'btrfs-progs-unstable'
+  "${pkgname}-unstable"
 )
 license=(
   'GPL-2.0-only'
@@ -70,15 +89,16 @@ validpgpkeys=(
   'F2B41200C54EFB30380C1756C565D5F9D76D583B'
 )
 source=(
-  "https://www.kernel.org/pub/linux/kernel/people/kdave/btrfs-progs/btrfs-progs-v$pkgver.tar."{sign,xz}
-  'initcpio-install-btrfs'
-  'initcpio-hook-btrfs'
-  'btrfs-scrub@.service'
-  'btrfs-scrub@.timer'
+  "https://www.kernel.org/pub/linux/kernel/people/kdave/${pkgname}/${pkgname}-v${pkgver}.tar."{sign,xz}
+  "initcpio-install-${_pkg}"
+  "initcpio-hook-${_pkg}"
+  "${_pkg}-scrub@.service"
+  "${_pkg}-scrub@.timer"
 )
-install=btrfs-progs.install
+install="${pkgname}.install"
 options=(
-  !staticlibs)
+  !staticlibs
+)
 sha256sums=(
   'SKIP'
   '7e14a5d597f323dd7d1b453e3a4e661a7e9f07ea060efbff4f76ff8315917de8'
@@ -135,42 +155,52 @@ build() {
 check() {
   cd \
     "${pkgname}-v${pkgver}"
- ./btrfs \
+ "./${_pkg}" \
    filesystem \
      show
 }
 
 package() {
+  local \
+    _make_opts=()
   cd \
     "${pkgname}-v${pkgver}"
+  _make_opts=(
+    DESTDIR="${pkgdir}"
+    install
+  )
+  if [[ "${_python}" == 'true' ]]; then
+    _make_opts+=(
+      install_python
+    )
+  fi
   make \
-    DESTDIR="${pkgdir}" \
-    install \
-    install_python
+    "${_make_opts[@]}"
   # install bash completion (FS#44618)
   install \
     -Dm644 \
     btrfs-completion \
     "${pkgdir}/usr/share/bash-completion/completions/btrfs"
   # install mkinitcpio hooks
-  cd "$srcdir"
+  cd \
+    "${srcdir}"
   install \
     -Dm644 \
-    initcpio-install-btrfs \
-    "$pkgdir/usr/lib/initcpio/install/btrfs"
+    "initcpio-install-${_pkg}" \
+    "${pkgdir}/usr/lib/initcpio/install/${_pkg}"
   install \
     -Dm644 \
-    initcpio-hook-btrfs \
-    "${pkgdir}/usr/lib/initcpio/hooks/btrfs"
+    "initcpio-hook-${_pkg}" \
+    "${pkgdir}/usr/lib/initcpio/hooks/${_pkg}"
   # install scrub service/timer
   install \
     -Dm644 \
-    btrfs-scrub@.service \
-    "${pkgdir}/usr/lib/systemd/system/btrfs-scrub@.service"
+    "${_pkg}-scrub@.service" \
+    "${pkgdir}/usr/lib/systemd/system/${_pkg}-scrub@.service"
   install \
     -Dm644 \
-    btrfs-scrub@.timer \
-    "${pkgdir}/usr/lib/systemd/system/btrfs-scrub@.timer"
+    "${_pkg}-scrub@.timer" \
+    "${pkgdir}/usr/lib/systemd/system/${_pkg}-scrub@.timer"
 }
 
 # vim:set ts=2 sw=2 ft=sh et:
