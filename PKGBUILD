@@ -131,9 +131,13 @@ prepare() {
 build() {
   local \
     _configure_opts=() \
-    _cflags=()
+    _cflags=() \
+    _ldflags=()
   _cflags=(
-    "${CFLAGS}"
+    # "${CFLAGS}"
+  )
+  _ldflags=(
+    # "${LDFLAGS}"
   )
   _configure_opts=(
     --prefix=/usr
@@ -142,6 +146,22 @@ build() {
   if [[ "${_os}" == 'Android' ]]; then
     _cflags+=(
       -Wno-implicit-function-declaration
+      -Wno-error-implicit-function-declaration
+    )
+    _ldflags+=(
+      -landroid-glob
+      -landroid-shmem
+      -landroid-execinfo
+      -landroid-support
+      -landroid-posix-semaphore
+      -landroid-spawn
+      -landroid-sysv-semaphore
+      # These are actually for
+      # clang/llvm and tied to how
+      # termux has built them
+      -fuse-ld=lld
+      -rtlib=compiler-rt
+      -unwindlib=libunwind
     )
   fi
   if [[ "${_docs}" == 'false' ]]; then
@@ -156,10 +176,15 @@ build() {
   fi
   cd \
     "${pkgname}-v${pkgver}"
+  export \
+    CFLAGS="${_cflags[*]}"
+    LDFLAGS="${_ldflags[*]}"
   CFLAGS="${_cflags[*]}" \
+  LDFLAGS="${_ldflags[*]}" \
   ./configure \
     "${_configure_opts[@]}"
   CFLAGS="${_cflags[*]}" \
+  LDFLAGS="${_ldflags[*]}" \
   make
 }
 
