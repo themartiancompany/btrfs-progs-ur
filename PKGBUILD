@@ -130,11 +130,20 @@ prepare() {
 
 build() {
   local \
-    _configure_opts=()
+    _configure_opts=() \
+    _cflags=()
+  _cflags=(
+    "${CFLAGS}"
+  )
   _configure_opts=(
     --prefix=/usr
     --with-crypto=libgcrypt
   )
+  if [[ "${_os}" == 'Android' ]]; then
+    _cflags+=(
+      -Wno-implicit-function-declaration
+    )
+  fi
   if [[ "${_docs}" == 'false' ]]; then
     _configure_opts+=(
       --disable-documentation
@@ -147,8 +156,10 @@ build() {
   fi
   cd \
     "${pkgname}-v${pkgver}"
+  CFLAGS="${_cflags[*]}" \
   ./configure \
     "${_configure_opts[@]}"
+  CFLAGS="${_cflags[*]}" \
   make
 }
 
