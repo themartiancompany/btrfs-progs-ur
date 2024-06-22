@@ -119,11 +119,11 @@ build() {
     _configure_opts+=(
       --disable-documentation
     )
+  fi
   if [[ "${_udev}" == 'false' ]]; then
     _configure_opts+=(
       --disable-libudev
     )
-
   fi
   cd \
     "${pkgname}-v${pkgver}"
